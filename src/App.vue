@@ -46,17 +46,19 @@ const searchUser = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8">
-      <h1 class="text-3xl font-bold text-center text-slate-800 mb-8">GitHub 偵察機</h1>
+  <!-- 背景換成深色 -->
+  <div class="min-h-screen bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
+    <!-- 卡片也換成深色，但顏色比背景亮一點點 -->
+    <div class="max-w-md mx-auto bg-slate-800 rounded-xl shadow-2xl overflow-hidden md:max-w-2xl p-8 border border-slate-700">
+      <h1 class="text-3xl font-bold text-center text-white mb-8">GitHub 偵察機</h1>
       
       <div class="flex gap-2 mb-6">
-        <!-- 綁定名字盒子 -->
+        <!-- 綁定名字盒子，背景換成淺色讓字體清晰 -->
         <input 
           v-model="userName" 
           type="text" 
           placeholder="請輸入 GitHub 帳號"
-          class="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700"
+          class="flex-1 px-4 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder-slate-400"
           @keyup.enter="searchUser"
         />
         
@@ -64,33 +66,33 @@ const searchUser = async () => {
         <button 
           :disabled="isLoading" 
           @click="searchUser"
-          class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
+          class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-slate-600 disabled:cursor-not-allowed transition-all shadow-lg active:scale-95"
         >
           {{ isLoading ? '偵察中...' : '開始偵察' }}
         </button>
       </div>
 
       <!-- 顯示壞消息的小盒子 -->
-      <div v-if="errorMsg" class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
+      <div v-if="errorMsg" class="mb-6 p-4 bg-red-900/30 border-l-4 border-red-500 text-red-200">
         <p class="font-bold">提醒：</p>
         <p>{{ errorMsg }}</p>
       </div>
       
       <!-- 如果外帶盒有東西，就顯示出來 -->
-      <div v-if="userData" class="mt-8 border-t border-slate-100 pt-8 flex flex-col items-center">
-        <img :src="userData.avatar_url" alt="頭像" class="w-32 h-32 rounded-full border-4 border-blue-100 shadow-sm mb-4" />
-        <h2 class="text-2xl font-bold text-slate-800">{{ userData.login }}</h2>
-        <p class="text-slate-600 text-center mt-2 px-4 italic">
+      <div v-if="userData" class="mt-8 border-t border-slate-700 pt-8 flex flex-col items-center">
+        <img :src="userData.avatar_url" alt="頭像" class="w-32 h-32 rounded-full border-4 border-blue-500/30 shadow-2xl mb-4" />
+        <h2 class="text-2xl font-bold text-white">{{ userData.login }}</h2>
+        <p class="text-slate-300 text-center mt-2 px-4 italic">
           {{ userData.bio || '這個偵察對象很神祕，沒有寫簡介。' }}
         </p>
         
-        <div class="mt-6 flex gap-4 text-sm text-slate-500">
+        <div class="mt-6 flex gap-8 text-sm text-slate-400">
           <div class="text-center">
-            <span class="block font-bold text-slate-800 text-lg">{{ userData.followers }}</span>
+            <span class="block font-bold text-white text-xl">{{ userData.followers }}</span>
             追蹤者
           </div>
           <div class="text-center">
-            <span class="block font-bold text-slate-800 text-lg">{{ userData.public_repos }}</span>
+            <span class="block font-bold text-white text-xl">{{ userData.public_repos }}</span>
             公開倉庫
           </div>
         </div>
