@@ -1,12 +1,47 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-// 1. 準備一個空盒子，用來裝你打的名字
-const userName = ref('') 
+// 1. 準備各種盒子與開關
+const userName = ref('') // 裝你打的名字的盒子
+const userData = ref<any>(null) // 裝大廚（GitHub）給的資料的外帶盒
+const errorMsg = ref('') // 裝壞消息的小盒子（例如找不到人）
+const isLoading = ref(false) // 服務生是不是正在跑腿的開關
 
-// 2. 準備一個小動作，按鈕按下後會執行
-const searchUser = () => {
-  alert('你剛才輸入了：' + userName.value)
+// 2. 服務生出發找人的動作
+const searchUser = async () => {
+  // 先檢查盒子裡有沒有寫名字
+  if (!userName.value.trim()) {
+    errorMsg.value = '請先輸入名字喔！'
+    userData.value = null
+    return
+  }
+
+  // 開始跑腿，把開關打開
+  isLoading.value = true
+  errorMsg.value = ''
+  userData.value = null
+
+  try {
+    // 服務生跑到 GitHub 大廚家問問題
+    const response = await fetch(`https://api.github.com/users/${userName.value}`)
+    
+    // 如果大廚說找不到這個人
+    if (!response.ok) {
+      throw new Error('找不到這位偵察對象呢...')
+    }
+
+    // 大廚把資料裝進盤子裡（轉成 JSON）
+    const data = await response.json()
+    
+    // 把資料放進我們的外帶盒
+    userData.value = data
+  } catch (err: any) {
+    // 如果發生意外，把壞消息裝進盒子
+    errorMsg.value = err.message
+  } finally {
+    // 服務生回來了，把開關關掉
+    isLoading.value = false
+  }
 }
 </script>
 
@@ -15,23 +50,31 @@ const searchUser = () => {
     <h1>GitHub 偵察機</h1>
     
     <div class="search-box">
-      <!-- 3. 把輸入框跟我們剛才準備的「盒子」綁在一起 -->
+      <!-- 綁定名字盒子 -->
       <input 
         v-model="userName" 
         type="text" 
         placeholder="請輸入 GitHub 帳號"
+        @keyup.enter="searchUser"
       />
       
-      <!-- 4. 按下按鈕時，鈴聲響起，執行 searchUser 動作 -->
-      <button @click="searchUser">
-        開始偵察
+      <!-- 按下按鈕，服務生出發 -->
+      <button :disabled="isLoading" @click="searchUser">
+        {{ isLoading ? '偵察中...' : '開始偵察' }}
       </button>
     </div>
-    
-    <!-- 5. 測試用：把盒子裡的內容直接顯示出來看看 -->
-    <p v-if="userName">
-      你正在輸入：{{ userName }}
+
+    <!-- 顯示壞消息的小盒子 -->
+    <p v-if="errorMsg" class="error">
+      {{ errorMsg }}
     </p>
+    
+    <!-- 第四步預留：如果外帶盒有東西，就顯示出來 -->
+    <div v-if="userData" class="result">
+      <img :src="userData.avatar_url" alt="頭像" class="avatar" />
+      <h2>{{ userData.login }}</h2>
+      <p>{{ userData.bio || '這個偵察對象很神祕，沒有寫簡介。' }}</p>
+    </div>
   </div>
 </template>
 
@@ -65,7 +108,27 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #33a06f;
+button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+.result {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid #42b883;
 }
 </style>
