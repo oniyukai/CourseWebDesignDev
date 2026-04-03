@@ -1,5 +1,47 @@
-# Vue 3 + TypeScript + Vite
+# 🛸 GitHub 偵察機 — Vibe Coding 實作紀錄
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+這是一個使用 Vue 3 與 Tailwind CSS 開發的簡單 Web 應用程式。透過與 AI Agent (OpenCode) 的協作，將複雜的程式概念轉譯為直覺的生活比喻，並以「Vibe Coding」的方式快速完成開發。
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## 🤖 我與 AI 的溝通紀錄
+
+在開發過程中，為了搞懂 Vue 的運作邏輯，我向 AI 提出了以下問題，並得到了易懂的解答：
+
+### 1. 我問了 AI 哪個問題來搞懂它的程式碼？
+
+*   **關於資料儲存：** 「程式碼裡的哪一行是負責『記住』我打的名字的？那一行長什麼樣子？」
+*   **關於運作原理：** 「`v-model`、`v-if` 這些參數以及 Vue 的運作原理跟我說明一下。」
+*   **關於樣式設計：** 「Vue 可以接上 Tailwind 設計嗎？我偏好這個。」（以及後續關於深色模式的調整建議）。
+
+### 2. AI 給了你什麼「比喻」讓你聽懂了？
+
+AI 導師在對話中使用了大量生活化的比喻，讓我能快速理解 Vue 的開發：
+
+*   **`ref`：** AI 把變數比喻成 **「盒子」**。例如 `const userName = ref('')` 就是準備一個空盒子，用來裝我輸入的名字。
+*   **`v-model`：** AI 說這就像一條 **「隱形的線」** 或 **「傳聲筒」**，把畫面上的輸入框跟程式裡的盒子綁在一起。我在框框打字，盒子裡的內容就跟著變；這就是「雙向綁定」。
+*   **`v-if`：** AI 將其比喻為 **「隱身斗篷」**。當條件不符合時（例如沒抓到資料），它會像變魔術一樣讓該區塊從網頁上完全消失。
+*   **Vue 的運作原理：** AI 把 Vue 比喻成一面 **「魔鏡」**。我只要改了盒子（資料）的內容，魔鏡就會自動幫我更新牆面（UI），不需要手動去修改 HTML。
+*   **Tailwind CSS：** 
+    *   AI 說 Tailwind 是一盒 **「貼紙盒」**，想換裝潢只要把貼紙貼上去就好。
+    *   在設定內容清單（content configuration）時，AI 把它比喻成 **「乾洗店的清單」**，必須告訴乾洗店哪些衣服（檔案）需要處理，樣式才會生效。
+*   **API 請求：** 按下按鈕後，AI 說這就像 **「服務生」** 拿著點餐單跑到 **「GitHub 大廚」** 那邊問有沒有資料，再把結果裝進 **「外帶盒」** 帶回來。
+
+---
+
+## 🚀 如何執行
+
+1. `npm install` (安裝依賴)
+2. `npm run dev` (啟動開發伺服器)
+3. 打開瀏覽器輸入 `http://localhost:5173` 即可開始偵察 GitHub 用戶！
+
+---
+
+## 🧑‍💻 我的 Vibe Coding 經驗與感受
+
+在這次課程之前，我其實已有過 **vibe coding** 的工程經驗。我平時主要使用的方案是 **Zed** 這款 AI agent IDE，已經非常習慣 AI 與人高度協同的開發模式。
+
+這次作業要求採用 **OpenCode**，雖然 AI agent 的本質大同小異，但這次我選擇在 **GitHub Codespaces** 中建立環境，最大的好處是「不用在自己電腦裝一堆有的沒的」。
+
+**實際使用下來的觀察：**
+1. **Token 消耗大：** OpenCode 在處理任務時感覺比 Zed 耗費更多 token，我是按量計費的錢包有感流血。
+2. **開發模式偏向「無代碼」：** OpenCode 的流程自動化程度很高，但我個人更習慣 Zed 那種「協作開發」與「仿人類 Agent 開發流程」。
+3. **交流靈活性：** 我發現 OpenCode 在「修改交流」這件事上稍微不便，比起其他 Agent CLI 雖然更現成、開箱及用，但我更喜歡自己能主導並完整調整的**提示詞工程**。
