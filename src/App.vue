@@ -46,89 +46,59 @@ const searchUser = async () => {
 </script>
 
 <template>
-  <div class="container">
-    <h1>GitHub 偵察機</h1>
-    
-    <div class="search-box">
-      <!-- 綁定名字盒子 -->
-      <input 
-        v-model="userName" 
-        type="text" 
-        placeholder="請輸入 GitHub 帳號"
-        @keyup.enter="searchUser"
-      />
+  <div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8">
+      <h1 class="text-3xl font-bold text-center text-slate-800 mb-8">GitHub 偵察機</h1>
       
-      <!-- 按下按鈕，服務生出發 -->
-      <button :disabled="isLoading" @click="searchUser">
-        {{ isLoading ? '偵察中...' : '開始偵察' }}
-      </button>
-    </div>
+      <div class="flex gap-2 mb-6">
+        <!-- 綁定名字盒子 -->
+        <input 
+          v-model="userName" 
+          type="text" 
+          placeholder="請輸入 GitHub 帳號"
+          class="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700"
+          @keyup.enter="searchUser"
+        />
+        
+        <!-- 按下按鈕，服務生出發 -->
+        <button 
+          :disabled="isLoading" 
+          @click="searchUser"
+          class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors"
+        >
+          {{ isLoading ? '偵察中...' : '開始偵察' }}
+        </button>
+      </div>
 
-    <!-- 顯示壞消息的小盒子 -->
-    <p v-if="errorMsg" class="error">
-      {{ errorMsg }}
-    </p>
-    
-    <!-- 第四步預留：如果外帶盒有東西，就顯示出來 -->
-    <div v-if="userData" class="result">
-      <img :src="userData.avatar_url" alt="頭像" class="avatar" />
-      <h2>{{ userData.login }}</h2>
-      <p>{{ userData.bio || '這個偵察對象很神祕，沒有寫簡介。' }}</p>
+      <!-- 顯示壞消息的小盒子 -->
+      <div v-if="errorMsg" class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
+        <p class="font-bold">提醒：</p>
+        <p>{{ errorMsg }}</p>
+      </div>
+      
+      <!-- 如果外帶盒有東西，就顯示出來 -->
+      <div v-if="userData" class="mt-8 border-t border-slate-100 pt-8 flex flex-col items-center">
+        <img :src="userData.avatar_url" alt="頭像" class="w-32 h-32 rounded-full border-4 border-blue-100 shadow-sm mb-4" />
+        <h2 class="text-2xl font-bold text-slate-800">{{ userData.login }}</h2>
+        <p class="text-slate-600 text-center mt-2 px-4 italic">
+          {{ userData.bio || '這個偵察對象很神祕，沒有寫簡介。' }}
+        </p>
+        
+        <div class="mt-6 flex gap-4 text-sm text-slate-500">
+          <div class="text-center">
+            <span class="block font-bold text-slate-800 text-lg">{{ userData.followers }}</span>
+            追蹤者
+          </div>
+          <div class="text-center">
+            <span class="block font-bold text-slate-800 text-lg">{{ userData.public_repos }}</span>
+            公開倉庫
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.container {
-  max-width: 600px;
-  margin: 50px auto;
-  text-align: center;
-  font-family: sans-serif;
-}
-
-.search-box {
-  margin: 20px 0;
-}
-
-input {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #42b883;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-button:disabled {
-  background-color: #999;
-  cursor: not-allowed;
-}
-
-.error {
-  color: #ff4d4f;
-  font-weight: bold;
-}
-
-.result {
-  margin-top: 30px;
-  padding: 20px;
-  border: 1px solid #eee;
-  border-radius: 8px;
-}
-
-.avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  border: 3px solid #42b883;
-}
+/* 這裡不需要額外的 CSS，因為我們用了 Tailwind！ */
 </style>
